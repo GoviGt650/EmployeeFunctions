@@ -23,19 +23,21 @@ let employees = [
     },
 ];
 
-function filterBySalary(limit) {
-    return employees.filter(emp => emp.salary <= limit);
+function filterEmployees(option) {
+    const salary = option?.salary;
+    const project = option?.projectAllocated;
+    if (salary !==undefined && project !==undefined) {
+        return employees.filter(emp => emp.salary <= salary && emp.projectAllocated === project);
+    }
+    if (salary !==undefined) {
+        return employees.filter(emp => emp.salary <= salary);
+    }
+    if (project !==undefined) {
+        return employees.filter(emp => emp.projectAllocated === project);
+    }
+    
 }
 
-function filterByProject(isAllocated) {
-    return employees.filter(emp => emp.projectAllocated === isAllocated);
-}
-
-console.log("Employees with salary <= 1800000");
-console.log(filterBySalary(1800000));
-
-console.log("\nAllocated Employees");
-console.log(filterByProject(true));
-
-console.log("\nNot Allocated Employees");
-console.log(filterByProject(false));
+console.log(filterEmployees({salary: 1800000}));
+// console.log(filterEmployees({projectAllocated: true}));
+// console.log(filterEmployees({salary: 2000000, projectAllocated: true}));
