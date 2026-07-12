@@ -1,12 +1,16 @@
 // ---------- Inputs ----------
+const empConfig = require('../config/empConfig');
+
+const standardDeduction = empConfig.STANDARD_DEDUCTION;
+const pfDeduction = empConfig.MONTHLY_PF_DEDUCTION;
+const ptDeduction = empConfig.MONTHLY_PT_DEDUCTION;
+
+const workingDaysPerMonth = empConfig.WORKING_DAYS_PER_MONTH;
+const hoursPerDay = empConfig.HOURS_PER_DAY;
+
+
 function CalculateSalary(annualSalary) {
-    const standardDeduction = 50000; // Standard deduction (New Regime)
-    const pfDeduction = 1800;        // Monthly PF
-    const ptDeduction = 200;         // Monthly PT
-
-    const workingDaysPerMonth = 22;
-    const hoursPerDay = 8;
-
+    
     // ---------- Step 1: Taxable Income ----------
     const taxableIncome = annualSalary - standardDeduction;
 
@@ -21,18 +25,10 @@ function CalculateSalary(annualSalary) {
     let tax = 0;
     let remainingIncome = taxableIncome;
 
-    const SLABS = [
-        { limit: 300000, rate: 0.00 },
-        { limit: 300000, rate: 0.05 },
-        { limit: 300000, rate: 0.10 },
-        { limit: 300000, rate: 0.15 },
-        { limit: 300000, rate: 0.20 },
-        { limit: Infinity, rate: 0.30 }
-    ];
 
-    for (const slab of SLABS) {
+    for (const slab of empConfig.TAX_SLABS) {
         if (remainingIncome > 0) {
-            const taxableAmount = Math.min(remainingIncome, slab.limit);
+            const taxableAmount = Math.min(remainingIncome, slab.width);
             tax += taxableAmount * slab.rate;
             remainingIncome -= taxableAmount;
         }
@@ -40,7 +36,7 @@ function CalculateSalary(annualSalary) {
 
 
     // ---------- Step 3: Health & Education Cess @ 4% ----------
-    const cess = tax * 0.04;
+    const cess = tax * empConfig.CESS_RATE;
     const totalTax = tax + cess;
 
     // ---------- Step 4: Monthly Tax ----------
@@ -53,7 +49,7 @@ function CalculateSalary(annualSalary) {
     const monthlyNetSalary = monthlyGrossSalary - monthlyTax - pfDeduction - ptDeduction;
 
     // ---------- Step 7: Hourly Salary ----------
-    const totalMonthlyHours = workingDaysPerMonth * hoursPerDay;
+    const totalMonthlyHours = empConfig.TOTAL_MONTHLY_HOURS;
     const hourlySalary = monthlyNetSalary / totalMonthlyHours;
 
     // ---------- Output ----------
