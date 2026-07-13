@@ -1,15 +1,14 @@
-// ---------- Inputs ----------
+// ---------- Import Required Modules ----------
 const empConfig = require('../config/empConfig');
-
+// ---------- Extract Required Constants from Configuration ----------
 const standardDeduction = empConfig.STANDARD_DEDUCTION;
 const pfDeduction = empConfig.MONTHLY_PF_DEDUCTION;
 const ptDeduction = empConfig.MONTHLY_PT_DEDUCTION;
-
 const workingDaysPerMonth = empConfig.WORKING_DAYS_PER_MONTH;
 const hoursPerDay = empConfig.HOURS_PER_DAY;
 const annualSalary = empConfig.ANNUAL_SALARY;
 
-
+// ---------- Function to Calculate Salary Breakdown ----------
 function CalculateSalary(annualSalary) {
     
     // ---------- Step 1: Taxable Income ----------
@@ -26,7 +25,7 @@ function CalculateSalary(annualSalary) {
     let tax = 0;
     let remainingIncome = taxableIncome;
 
-
+    // ---------- Calculate Tax for Each Slab ----------
     for (const slab of empConfig.TAX_SLABS) {
         if (remainingIncome > 0) {
             const taxableAmount = Math.min(remainingIncome, slab.width);
@@ -67,12 +66,14 @@ function CalculateSalary(annualSalary) {
     console.log("Hourly Salary        : " + hourlySalary.toFixed(2));
     console.log("=======================================");
 
+    // ---------- Return the Monthly Net Salary ----------
     return {
         monthlyNetSalary : monthlyNetSalary
     };
 
 }
 
+//---------- Function Call ----------
 CalculateSalary(annualSalary); 
 
 module.exports = CalculateSalary; 
