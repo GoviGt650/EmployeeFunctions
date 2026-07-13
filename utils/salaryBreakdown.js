@@ -7,6 +7,7 @@ const ptDeduction = empConfig.MONTHLY_PT_DEDUCTION;
 
 const workingDaysPerMonth = empConfig.WORKING_DAYS_PER_MONTH;
 const hoursPerDay = empConfig.HOURS_PER_DAY;
+const annualSalary = empConfig.ANNUAL_SALARY;
 
 
 function CalculateSalary(annualSalary) {
@@ -66,6 +67,12 @@ function CalculateSalary(annualSalary) {
     console.log("Hourly Salary        : " + hourlySalary.toFixed(2));
     console.log("=======================================");
 
+    return {
+        monthlyNetSalary : monthlyNetSalary
+    };
+
 }
 
-CalculateSalary(1500000); 
+CalculateSalary(annualSalary); 
+
+module.exports = CalculateSalary; 

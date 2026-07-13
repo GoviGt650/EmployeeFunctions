@@ -1,4 +1,15 @@
 const empDetails = require('../data/empData');
+const empSalaryDetails = require('../config/empConfig')
+
+const { EMP_MIN_SALARY, EMP_MAX_SALARY } = empSalaryDetails;
+const experience = empSalaryDetails.EMP_EXPERIENCE;
+
+const salary = {
+  min: EMP_MIN_SALARY,
+  max: EMP_MAX_SALARY
+};
+
+const projectAllocated = empSalaryDetails.PROJECT_ALLOCATED;
 
 function filterEmployee(option = {}) {
     const { min, max } = option?.salary || {};
@@ -29,7 +40,6 @@ function filterEmployee(option = {}) {
 }
 
 
-// console.log(filterEmployee({salary: { min: 1500000, max: 2000000 }}));
-// console.log(filterEmployee({projectAllocated: false}));
-// console.log(filterEmployee({salary: { min: 1500000, max: 2000000 }, projectAllocated: true}));
-console.log(filterEmployee({experience: 2}));
+// console.log(filterEmployee({salary}));
+// console.log(filterEmployee({projectAllocated}));
+console.log(filterEmployee({experience}));
